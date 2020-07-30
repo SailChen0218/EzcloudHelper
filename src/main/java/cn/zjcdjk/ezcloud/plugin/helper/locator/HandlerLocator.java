@@ -18,22 +18,24 @@ public class HandlerLocator {
 
     public static void packageScan(String pkaName, Project project) {
         PsiPackage pkg = JavaPsiFacade.getInstance(project).findPackage(pkaName);
-        PsiClass[] psiClasses = pkg.getClasses();
-        if (psiClasses != null && psiClasses.length > 0) {
-            for (PsiClass psiClass : psiClasses) {
-                PsiMethod[] psiMethods = psiClass.getMethods();
-                if (psiMethods != null && psiMethods.length > 0) {
-                    for (PsiMethod psiMethod : psiMethods) {
-                        recordMethod(psiMethod);
+        if (pkg != null) {
+            PsiClass[] psiClasses = pkg.getClasses();
+            if (psiClasses != null && psiClasses.length > 0) {
+                for (PsiClass psiClass : psiClasses) {
+                    PsiMethod[] psiMethods = psiClass.getMethods();
+                    if (psiMethods != null && psiMethods.length > 0) {
+                        for (PsiMethod psiMethod : psiMethods) {
+                            recordMethod(psiMethod);
+                        }
                     }
                 }
             }
-        }
 
-        PsiPackage[] psiPackages = pkg.getSubPackages();
-        if (psiPackages != null && psiPackages.length > 0) {
-            for (PsiPackage psiPackage : psiPackages) {
-                packageScan(psiPackage.getQualifiedName(), project);
+            PsiPackage[] psiPackages = pkg.getSubPackages();
+            if (psiPackages != null && psiPackages.length > 0) {
+                for (PsiPackage psiPackage : psiPackages) {
+                    packageScan(psiPackage.getQualifiedName(), project);
+                }
             }
         }
     }
@@ -63,24 +65,28 @@ public class HandlerLocator {
 
     public static CommandInfo recordMapping(PsiMethod psiMethod) {
         PsiParameterList psiParameterList = psiMethod.getParameterList();
-        PsiParameter[] psiParameters = psiParameterList.getParameters();
-        if (psiParameters != null && psiParameters.length > 0) {
-            PsiType psiType = psiParameterList.getParameters()[0].getType();
-            String commandName = psiType.getCanonicalText();
-            mappingHolder.put(commandName, psiMethod);
-            return new CommandInfo(commandName, MethodType.Mapping);
+        if (psiParameterList != null) {
+            PsiParameter[] psiParameters = psiParameterList.getParameters();
+            if (psiParameters != null && psiParameters.length > 0) {
+                PsiType psiType = psiParameterList.getParameters()[0].getType();
+                String commandName = psiType.getCanonicalText();
+                mappingHolder.put(commandName, psiMethod);
+                return new CommandInfo(commandName, MethodType.Mapping);
+            }
         }
         return null;
     }
 
     public static CommandInfo recordQueryHandler(PsiMethod psiMethod) {
         PsiParameterList psiParameterList = psiMethod.getParameterList();
-        PsiParameter[] psiParameters = psiParameterList.getParameters();
-        if (psiParameters != null && psiParameters.length > 0) {
-            PsiType psiType = psiParameterList.getParameters()[0].getType();
-            String commandName = psiType.getCanonicalText();
-            handlerHolder.put(commandName, psiMethod);
-            return new CommandInfo(commandName, MethodType.Handler);
+        if (psiParameterList != null) {
+            PsiParameter[] psiParameters = psiParameterList.getParameters();
+            if (psiParameters != null && psiParameters.length > 0) {
+                PsiType psiType = psiParameterList.getParameters()[0].getType();
+                String commandName = psiType.getCanonicalText();
+                handlerHolder.put(commandName, psiMethod);
+                return new CommandInfo(commandName, MethodType.Handler);
+            }
         }
         return null;
     }
