@@ -1,0 +1,27 @@
+<idea-plugin>
+    <id>cn.zjcdjk.ezcloud</id>
+    <name>EzcloudHelper</name>
+    <vendor email="test@zjcdjk.com" url="http://www.zjcdjk.cn">zjcdjk</vendor>
+
+    <description>Ezcloud Helper utils...................................................................................................</description>
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <definitionsSearch implementation="cn.zjcdjk.ezcloud.plugin.helper.search.HandlerSearch"/>
+        <codeInsight.lineMarkerProvider language="JAVA" implementationClass="cn.zjcdjk.ezcloud.plugin.helper.InjectionLineMarkerProvider"/>
+<!--        <codeInsight.lineMarkerProvider language="JAVA" implementationClass="cn.zjcdjk.ezcloud.plugin.helper.SelfLineMarkerProvider" />-->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+
+    <application-components>
+        <component>
+            <implementation-class>cn.zjcdjk.ezcloud.plugin.EzcloudHelper</implementation-class>
+        </component>
+    </application-components>
+</idea-plugin>

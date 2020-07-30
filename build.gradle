@@ -1,0 +1,68 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.4.21'
+}
+
+group 'cn.zjcdjk.ezcloud'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'idea'
+apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+intellij {
+    version '2020.1.3'
+    plugins 'java'
+    pluginName 'EzcloudHelper'
+    updateSinceUntilBuild false
+}
+
+intellij {
+    sandboxDirectory = "$project.buildDir/EzcloudHelper"
+}
+
+patchPluginXml {
+    changeNotes """
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>"""
+}
+
+//jar {
+//    manifest {
+//        attributes 'Main-Class': 'cn.zjcdjk.ezcloud.plugin.EzcloudHelper'
+//    }
+//}
+uploadArchives {
+    repositories {
+        flatDir {
+            dirs 'repos'
+        }
+    }
+}
+
+//task makeReleaseJar(type: Jar, dependsOn: ['assembleRelease']){
+//    archiveName = 'TestSdk.jar'
+//    from ('build/intermediates/classes/release')
+//    destinationDir = file('build/libs')
+//}
+
+//task release(type: Copy, dependsOn: [build, makeReleaseJar])
