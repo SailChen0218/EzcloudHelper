@@ -41,7 +41,7 @@ public class InjectionLineMarkerProvider extends RelatedItemLineMarkerProvider {
 
     private void createMappingMarker(String commandName, @NotNull PsiElement psiElement,
                                      Collection<? super RelatedItemLineMarkerInfo> result) {
-        PsiMethod psiMethod = HandlerLocator.findMappingMethod(commandName, psiElement);
+        PsiMethod psiMethod = HandlerLocator.findHandlerMethod(commandName, psiElement);
         if (psiMethod != null) {
             Icon icon = IconLoader.getIcon(ICON_PATH);
             NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder.create(icon)
@@ -53,7 +53,7 @@ public class InjectionLineMarkerProvider extends RelatedItemLineMarkerProvider {
 
     private void createHandlerMarker(String commandName, @NotNull PsiElement psiElement,
                                      Collection<? super RelatedItemLineMarkerInfo> result) {
-        PsiMethod psiMethod = HandlerLocator.findHandlerMethod(commandName, psiElement);
+        PsiMethod psiMethod = HandlerLocator.findMappingMethod(commandName, psiElement);
         if (psiMethod != null) {
             Icon icon = IconLoader.getIcon(ICON_PATH);
             NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder.create(icon)

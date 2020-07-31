@@ -123,7 +123,7 @@ public class HandlerLocator {
         Map<String, PsiMethod> handlerHolder = projectBaseHandlerHolder.get(projectBaseKey);
         if (handlerHolder == null) {
             handlerHolder = new ConcurrentHashMap<>();
-            projectBaseMappingHolder.put(projectBaseKey, handlerHolder);
+            projectBaseHandlerHolder.put(projectBaseKey, handlerHolder);
         }
         handlerHolder.put(commandName, psiMethod);
     }
