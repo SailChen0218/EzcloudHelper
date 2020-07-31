@@ -41,8 +41,8 @@ public class InjectionLineMarkerProvider extends RelatedItemLineMarkerProvider {
 
     private void createMappingMarker(String commandName, @NotNull PsiElement psiElement,
                                      Collection<? super RelatedItemLineMarkerInfo> result) {
-        if (HandlerLocator.handlerHolder.containsKey(commandName)) {
-            PsiMethod psiMethod = HandlerLocator.handlerHolder.get(commandName);
+        PsiMethod psiMethod = HandlerLocator.findMappingMethod(commandName, psiElement);
+        if (psiMethod != null) {
             Icon icon = IconLoader.getIcon(ICON_PATH);
             NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder.create(icon)
                     .setAlignment(GutterIconRenderer.Alignment.CENTER).setTarget(psiMethod)
@@ -53,15 +53,14 @@ public class InjectionLineMarkerProvider extends RelatedItemLineMarkerProvider {
 
     private void createHandlerMarker(String commandName, @NotNull PsiElement psiElement,
                                      Collection<? super RelatedItemLineMarkerInfo> result) {
-        if (HandlerLocator.mappingHolder.containsKey(commandName)) {
-            PsiMethod psiMethod = HandlerLocator.mappingHolder.get(commandName);
+        PsiMethod psiMethod = HandlerLocator.findHandlerMethod(commandName, psiElement);
+        if (psiMethod != null) {
             Icon icon = IconLoader.getIcon(ICON_PATH);
             NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder.create(icon)
                     .setAlignment(GutterIconRenderer.Alignment.CENTER).setTarget(psiMethod)
                     .setTooltipTitle("Mapping");
             result.add(builder.createLineMarkerInfo(psiElement));
         }
-
     }
 }
 
